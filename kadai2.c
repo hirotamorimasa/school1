@@ -35,7 +35,6 @@ void Print_alpha(void)
 	{
 		s_alpha = S_ALPHA;
 		l_alpha = L_ALPHA;
-		putchar(ch);
 
 		for(i = 0; i < ALPHA; i++)
 		{
