@@ -1,3 +1,3 @@
 # school1
 
-monte.c ➡ モンテカルロ法
+monte.c → モンテカルロ法
