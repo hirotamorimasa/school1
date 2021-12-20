@@ -1,3 +1,7 @@
+//SPDX-License-Identifier:GPL-2.0
+//*Copyright (c) 2021 Hiromasa Morita. All rights reserved.
+
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
