@@ -63,6 +63,7 @@ void Print_alpha(void)
 			}
 		}
 	}
+	putchar('\n');
 	fclose(fp);
 }
 
