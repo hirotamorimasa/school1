@@ -2,7 +2,7 @@
 #SPDX-License-Identifier:GPL-2.0
 #*Copyright (c) 2021 Hiromasa Morita. All rights reserved.
 
-objs = kadai2.o kadai4.o kadai5.o monte.o coprime.o  
+objs = kadai2.o kadai4.o kadai5.o monte.o coprime.o  pascal.o jyanken.o
 
 cfile: $(objs)
 	gcc -Wall -O2 -o cfile $(objs)
@@ -21,6 +21,12 @@ monte.o: monte.c
 
 coprime.o: coprime.c
 	gcc -c coprime.c
+
+pascal.o: pascal.c
+	gcc -c pascal.c
+
+jyanken.o: jyanken.c
+	gcc -c jyanken.c
 
 .PHOSY: clean
 
