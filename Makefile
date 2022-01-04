@@ -1,5 +1,4 @@
 #Makefile for Cファイル
-#SPDX-License-Identifier:GPL-2.0
 #*Copyright (c) 2021 Hiromasa Morita. All rights reserved.
 
 objs = kadai2.o kadai4.o kadai5.o monte.o coprime.o  pascal.o jyanken.o
