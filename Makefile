@@ -1,7 +1,7 @@
 #Makefile for Cファイル
 #*Copyright (c) 2021 Hiromasa Morita. All rights reserved.
 
-objs = kadai2.o kadai4.o kadai5.o monte.o coprime.o  pascal.o jyanken.o
+objs = kadai2.o kadai4.o kadai5.o monte.o coprime.o  pascal.o jyanken.o trump.o ishitori.o
 
 cfile: $(objs)
 	gcc -Wall -O2 -o cfile $(objs)
@@ -26,6 +26,12 @@ pascal.o: pascal.c
 
 jyanken.o: jyanken.c
 	gcc -c jyanken.c
+
+trump.o: trump.c
+	gcc -c trump.c
+
+ishitori.o: ishitori.c
+	gcc -c ishitori.c
 
 .PHOSY: clean
 
