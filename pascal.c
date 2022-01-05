@@ -1,3 +1,5 @@
+//*Copyright (c) 2022 Hiromasa Morita. All rights reserved.
+
 #include <stdio.h>
 
 #define NUMBER 15
