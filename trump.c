@@ -35,8 +35,6 @@ void Judge(void)
 
 void Process(void)
 {
-	int i, j;
-	int card[TYPE][NUMBER];
 	srand(time(NULL));
 	
 	switch(Ransu_1())
