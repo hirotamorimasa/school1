@@ -1,7 +1,7 @@
 #Makefile for Cファイル
 #*Copyright (c) 2021 Hiromasa Morita. All rights reserved.
 
-objs = kadai2.o kadai4.o kadai5.o monte.o coprime.o  pascal.o jyanken.o trump.o ishitori.o search.o num88.o aho.o blackjack.o
+objs = kadai2.o kadai4.o kadai5.o monte.o coprime.o  pascal.o jyanken.o trump.o ishitori.o search.o num88.o aho.o blackjack.o hitblow.o bingo.o
 
 cfile: $(objs)
 	gcc -Wall -O2 -o cfile $(objs)
@@ -44,6 +44,13 @@ aho.o: aho.c
 
 blackjack.o: blackjack.c
 	gcc -c blackjack.c
+
+hitblow.o: hitblow.c
+	gcc -c hitblow.c
+
+bingo.o: bingo.c
+	gcc -c bingo.c
+
 
 .PHOSY: clean
 
