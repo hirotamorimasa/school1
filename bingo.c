@@ -7,6 +7,7 @@
 #define NUMBER 25
 #define BINGO 75
 
+int count = 0;
 
 //カードの乱数
 int Ransu(void)
@@ -62,44 +63,44 @@ void Bingo_range(int bingo[NUMBER])
 }
 
 //同番を探す
-void research(int bingo[NUMBER],int lottery)
+void research(int bingo[NUMBER],int lottery, int hit[NUMBER])
 {
 	int i;
+	
 	for(i = 0; i < NUMBER; i++)
 	{
 		if(bingo[i] == lottery)
 		{
 			printf("あった！\n");
+			hit[count++] = lottery;
 			break;
 		}
 	}
-
 }
 
-void Bingo_line(int bingo[NUMBER], int lottery[BINGO])
+void Bingo_line(int bingo[NUMBER], int hit[NUMBER])
 {
 	int i, j;
+	int zou;	
 	for(i = 0; i < NUMBER; i++)
 	{
-		for(j = 0; j <= i; j++)
+		for(j = 0; j < count; j++)
 		{
-			if(bingo[i] == lottery[j])
+			if(bingo[i] == hit[j])
 			{
 				printf("__\t");
-				break;
-			}
-			else 
-			{
-				printf("%2d\t", bingo[i]);
+				zou = j;
 				break;
 			}
 		}
+		if(bingo[i] != hit[zou])
+			printf("%2d\t", bingo[i]);
 		if((i+1) % 5 == 0)
 			putchar('\n');
 	}
 }
 
-void Bingo_print(int bingo[NUMBER], int lottery[BINGO])
+void Bingo_print(int bingo[NUMBER], int lottery[BINGO], int hit[NUMBER])
 {
 	int i, j;
 	int you;
@@ -122,8 +123,8 @@ void Bingo_print(int bingo[NUMBER], int lottery[BINGO])
 			}while(same == 1);
 		}
 		printf("%d番目：%d\n", i + 1, lottery[i]);
-		research(bingo, lottery[i]);
-		Bingo_line(bingo, lottery);
+		research(bingo, lottery[i], hit);
+		Bingo_line(bingo, hit);
 		putchar('\n');
 	}
 }
@@ -131,7 +132,7 @@ void Bingo_print(int bingo[NUMBER], int lottery[BINGO])
 void Bingo_process(void)
 {
 	int i, j;
-	int bingo[NUMBER], lottery[BINGO];
+	int bingo[NUMBER], lottery[BINGO], hit[NUMBER];
 	int you;
 	int count = 0;
 	srand(time(NULL));
@@ -139,7 +140,7 @@ void Bingo_process(void)
 	Bingo_card(bingo);
 	Bingo_range(bingo);
 
-	Bingo_print(bingo, lottery);
+	Bingo_print(bingo, lottery, hit);
 }
 
 int main(void)
