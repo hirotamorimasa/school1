@@ -9,6 +9,7 @@ Makefile  →一斉コンパイル用
 coprime.c → 互いに素  
 jyanken.c → じゃんけん  
 middle.c → 中間値  
-pascal.c → パスカルの三角形  
-
+pascal.c → パスカルの三角形    
+bingo.c → ビンゴゲーム  
+blackjack.c → ブラックジャック  
 
