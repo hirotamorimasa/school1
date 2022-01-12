@@ -12,6 +12,7 @@
 #define AOU 12
 
 int count = 0;
+int b_count;
 
 //カードの乱数
 int Ransu(void)
@@ -23,7 +24,7 @@ void start(int you)
 {
 	do
 	{
-		printf("1でスタート：");
+		printf("1でくじをまわす：");
 		scanf("%d", &you);
 	}while(you != 1);
 }
@@ -162,10 +163,9 @@ void Reach(int bingo[CARD], int hit[NUMBER], int aou[AOU])
 	Left_Naname_reach(bingo, hit, aou);
 }
 
-void Reach_print(int bingo[CARD], int hit[NUMBER], int aou[NUMBER])
+void Reach_print(int bingo[CARD], int hit[NUMBER], int aou[NUMBER], int r_count)
 {
 	int i;
-	int r_count = 0, b_count = 0;
 	
 	//AOU = 12, SLANT = 2
 	for(i = 0; i < AOU - SLANT; i++)
@@ -216,10 +216,12 @@ void Bingo_print(int bingo[CARD], int lottery[NUMBER], int hit[CARD])
 	int i, j;
 	int you;
 	int aou[AOU];
+	int r_count;
 	
 	Init(aou);
 	for(i = 0; i < NUMBER; i++)
 	{
+		r_count = 0;	b_count = 0;
 		start(you);
 		if(i == 0)	lottery[i] = Ransu();
 		else
@@ -239,9 +241,10 @@ void Bingo_print(int bingo[CARD], int lottery[NUMBER], int hit[CARD])
 		printf("%d番目：%d\n", i + 1, lottery[i]);
 		research(bingo, lottery[i], hit);
 		Reach(bingo, hit, aou);
-		Reach_print(bingo, hit, aou);
+		Reach_print(bingo, hit, aou, r_count);
 		Bingo_line(bingo, hit);
 		putchar('\n');
+		if(b_count > 0)	break;
 	}
 }
 
