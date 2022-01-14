@@ -15,7 +15,7 @@ int text_number(void)
 	int count = 0;
 	int ch;
 	FILE *fp;
-	char fname[] = "test.txt";
+	char fname[] = "text.txt";
 
 	fp = fopen(fname, "r");
 	if(fp == NULL)
@@ -40,7 +40,7 @@ int Ransu(void)
 void Print_alpha(void)
 {
 	FILE *fp;
-	char fname[] = "test.txt";
+	char fname[] = "text.txt";
 	int k;    //k番目、ｋ’番目
 	int x;    //x番目
 	int ch, ch_dash;

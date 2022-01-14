@@ -13,7 +13,7 @@ int text_number(void)
 	int ch;
 	int count = 0;
 	FILE *fp;
-	char fname[] = "test.txt";
+	char fname[] = "text.txt";
 
 	fp = fopen(fname, "r");
 	while((ch = fgetc(fp)) != EOF)
@@ -37,7 +37,7 @@ void Print_alpha(void)
 	int ch;
 	int k;
 	FILE *fp;
-	char fname[] = "test.txt";
+	char fname[] = "text.txt";
 
 	srand(time(NULL));
 	count = 0;

@@ -18,7 +18,7 @@ void Print_alpha(void)
 	int s_alpha, l_alpha;
 	int count[26];
 	FILE *fp;
-	char fname[] = "test.txt";
+	char fname[] = "text.txt";
 
 	for(i = 0; i < ALPHA; i++)
 	{
