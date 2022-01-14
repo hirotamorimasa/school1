@@ -1,6 +1,6 @@
 # school1
 
-*kadaiはtest.txtを使う*  
+*kadaiはtext.txtを使う*  
 monte.c → モンテカルロ法    
 kadai2.c　→　文字の頻出頻度    
 kadai4.c　→　第一近似の文字列生成(complete)    
