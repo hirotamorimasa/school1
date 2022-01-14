@@ -57,24 +57,7 @@ void Sum(int operator[SURGES], int x[SURGES], int count)
 	int i, j;
 	int o_count = 0;
 	int total = 0;
-	
-	//乗除
-	for(i = 1; i <= count; i++)
-	{
-		if(operator[i] == 42  && i < count)
-		{
-			o_count++;
-			x[i-1] = Multi(x[i], x[i-1]);
-			for(j = i; j <= count - 1; j++)
-				x[j] = x[j + 1];
 
-		}
-		if(operator[i] == 42 && i == count)
-		{
-			o_count++;
-			x[i-1] = Multi(x[i], x[i-1]);
-		}
-	}
 	//加減
 	for(i = 1; i <= count; i++)
 	{
@@ -150,7 +133,10 @@ void Keisan(int str[NUMBER], int ttr[SURGES], int utr[SURGES], int operator[OPER
 			break;
 		}
 	}
-	printf("ch=%d\ti=%d\n", operator[2], i);
+/*	for(int j = 0; j < i; j++)
+		printf("ttr[%d]=%d\t", j, ttr[j]);
+*/
+	printf("\nch=%d\ti=%d\n", operator[2], i);
 
 }
 

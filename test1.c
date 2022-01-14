@@ -41,46 +41,58 @@ void Operator(int operator[OPERATOR])
 	operator[i++] = 61;
 }
 
-void Sum(int operator[SURGES], int x[SURGES], int count)
+void Sum(int utr[SURGES], int ttr[SURGES], int count)
 {
 	int i, j;
 	int o_count = 0;
 	int total = 0;
 
+	for(i = 0; i < count; i++)
+		printf("%d\t", ttr[i]);
+	putchar('\n');
+
 	for(i = 1; i <= count; i++)
 	{
-		if(operator[i] == 42 && i < count)
+		if(utr[i] == 42 && i < count)
 		{
 			o_count++;
-			x[i-1] = Multi(x[i], x[i-1]);
+			ttr[i-1] = Multi(ttr[i], ttr[i-1]);
 			for(j = i; j <= count; j++)
 			{
-				x[j] = x[j + 1];
-				operator[j] = operator[j + 1];
+				ttr[j] = ttr[j + 1];
+				utr[j] = utr[j + 1];
 			}
 		}
-		if(operator[i] == 42 && i == count)
+		if(utr[i] == 42 && i == count)
 		{
 			o_count++;
-			x[i-1] = Multi(x[i], x[i-1]);
+			ttr[i-1] = Multi(ttr[i], ttr[i-1]);
 		}
 	}
 
 	for(i = 1; i <= count - o_count; i++)
 	{
-		printf("%d", x[i-1]);
-		
-		printf("%d", operator[1]);
+		printf("%d", ttr[i-1]);	
+		switch(utr[i])
+		{
+			case 43:
+				putchar('+');
+				break;
+			case 45:
+				putchar('-');
+				break;
+		}
 	}
+	putchar('\n');
 }
 
 void keisan(int str[NUMBER], int ttr[SURGES], int utr[SURGES], int operator[OPERATOR])
 {
 	int ch;
 	int x;
-	int i = 0, count = 0;
+	int i = 0, j, count = 0;
 	FILE *fp;
-	char fname[] = "test.txt";
+	char fname[] = "test1.txt";
 
 	Operator(operator);
 
@@ -125,6 +137,9 @@ void keisan(int str[NUMBER], int ttr[SURGES], int utr[SURGES], int operator[OPER
 			break;
 		}
 	}
+	
+	for(j = 0; j < i; j++)
+		printf("%d\t", ttr[i]);
 	printf("\ni=%d\n", i);
 }
 
