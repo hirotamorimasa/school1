@@ -1,10 +1,23 @@
+//*Copyright (c) 2022 Hiromasa Morita. All rights reserved.
+
 #include <stdio.h>
 #include <stdlib.h>
+#include <math.h>
 #include <ctype.h>
 
 #define NUMBER 6
 #define SURGES 25
 #define OPERATOR 5
+
+int Plus(int y, int x)
+{
+	return (y += x);
+}
+
+int Minus(int y, int x)
+{
+	return (y -= x);
+}
 
 int Multi(int y, int x)
 {
@@ -13,21 +26,19 @@ int Multi(int y, int x)
 
 int Squre(int x, int count)
 {
-	int i; 
 	int squre = 1;
 	
-	for(i = 1; i < count; i++)
-		squre += 10;
+	for(int i = 1; i < count; i++)
+		squre *= 10;
 	return (x * squre);
 }
 
 int Trans(int str[NUMBER], int count)
 {
-	int i;
 	int total = 0; 
 
-	for(i = 0; i < count; i++)
-			total += Squre(str[i], count - 1);
+	for(int i = 0; i < count; i++)
+		total += Squre(str[i], count - i);
 	return total;
 }
 
@@ -41,14 +52,14 @@ void Operator(int operator[OPERATOR])
 	operator[i++] = 61;
 }
 
-void Sum(int utr[SURGES], int ttr[SURGES], int count)
+void Sum(int utr[SURGES], int x[SURGES], int count)
 {
 	int i, j;
 	int o_count = 0;
 	int total = 0;
 
 	for(i = 0; i < count; i++)
-		printf("%d\t", ttr[i]);
+		printf("%d\t", x[i]);
 	putchar('\n');
 
 	for(i = 1; i <= count; i++)
@@ -56,23 +67,23 @@ void Sum(int utr[SURGES], int ttr[SURGES], int count)
 		if(utr[i] == 42 && i < count)
 		{
 			o_count++;
-			ttr[i-1] = Multi(ttr[i], ttr[i-1]);
+			x[i-1] = Multi(x[i], x[i-1]);
 			for(j = i; j <= count; j++)
 			{
-				ttr[j] = ttr[j + 1];
+				x[j] = x[j + 1];
 				utr[j] = utr[j + 1];
 			}
 		}
 		if(utr[i] == 42 && i == count)
 		{
 			o_count++;
-			ttr[i-1] = Multi(ttr[i], ttr[i-1]);
+			x[i-1] = Multi(x[i], x[i-1]);
 		}
 	}
 
-	for(i = 1; i <= count - o_count; i++)
+/*	for(i = 1; i <= count - o_count; i++)
 	{
-		printf("%d", ttr[i-1]);	
+		printf("%d", x[i-1]);	
 		switch(utr[i])
 		{
 			case 43:
@@ -83,6 +94,29 @@ void Sum(int utr[SURGES], int ttr[SURGES], int count)
 				break;
 		}
 	}
+*/	
+	for(i = 1; i <= count - o_count; i++)
+	{
+		if(utr[i] == 43)
+		{
+			if(i == 1)
+				total = Plus(x[i], x[i-1]);
+			else
+				total += x[i];
+		}
+		else if(utr[i] == 45)
+		{
+			if(i == 1)
+				total = Minus(x[i], x[i-1]);
+			else
+				total -= x[i];
+		}
+		else if(utr[i] == 61)
+		{
+			printf("total=%d\n", total);
+			break;
+		}
+	}
 	putchar('\n');
 }
 
@@ -90,7 +124,7 @@ void keisan(int str[NUMBER], int ttr[SURGES], int utr[SURGES], int operator[OPER
 {
 	int ch;
 	int x;
-	int i = 0, j, count = 0;
+	int i = 0, count = 0;
 	FILE *fp;
 	char fname[] = "test1.txt";
 
@@ -103,7 +137,6 @@ void keisan(int str[NUMBER], int ttr[SURGES], int utr[SURGES], int operator[OPER
 	}
 
 	fp = fopen(fname, "r");
-
 	while((ch = fgetc(fp)) != EOF)
 	{
 		if(ch >= 48 && ch <= 57)
@@ -138,8 +171,6 @@ void keisan(int str[NUMBER], int ttr[SURGES], int utr[SURGES], int operator[OPER
 		}
 	}
 	
-	for(j = 0; j < i; j++)
-		printf("%d\t", ttr[i]);
 	printf("\ni=%d\n", i);
 }
 
