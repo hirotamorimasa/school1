@@ -87,7 +87,7 @@ void Sum(int utr[SURGES], int x[SURGES], int count)
 				}
 				goto CONTINUE;
 			}
-/*			else if(utr[i] == 47 && i < count)
+			else if(utr[i] == 47 && i < count)
 			{
 				o_count++;
 				x[i-1] = Divis(x[i-1], x[i]);
@@ -98,7 +98,7 @@ void Sum(int utr[SURGES], int x[SURGES], int count)
 				}
 				goto CONTINUE;
 			}
-*/
+
 
 			if(utr[i] == 42 && i == count)
 			{
@@ -106,14 +106,14 @@ void Sum(int utr[SURGES], int x[SURGES], int count)
 				x[i-1] = Multi(x[i-1], x[i]);
 				goto CONTINUE;
 			}
-/*			else if(utr[i] == 47)
+			else if(utr[i] == 47)
 			{
 				o_count++;
 				x[i-1] = Divis(x[i], x[i-1]);
 				goto CONTINUE;
 			}
-*/		}
-
+		}
+//確認用の表示
 /*	for(i = 1; i <= count - o_count; i++)
 	{
 		printf("%d ", x[i-1]);
@@ -121,6 +121,9 @@ void Sum(int utr[SURGES], int x[SURGES], int count)
 	}
 	putchar('\n');
 */
+
+	if((count - o_count) == 1)
+		goto END;
 
 	for(i = 1; i <= count - o_count; i++)
 	{
@@ -145,6 +148,7 @@ void Sum(int utr[SURGES], int x[SURGES], int count)
 			break;
 		}
 	}
+	END: printf("total=%d\n", x[0]);
 }
 
 void keisan(int str[NUMBER], int ttr[SURGES], int utr[SURGES], int operator[OPERATOR])
@@ -184,6 +188,10 @@ void keisan(int str[NUMBER], int ttr[SURGES], int utr[SURGES], int operator[OPER
 				break;
 			case 45:
 				utr[++i] = operator[2];
+				count = 0;
+				break;
+			case 47:
+				utr[++i] = operator[3];
 				count = 0;
 				break;
 			default:
