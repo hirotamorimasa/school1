@@ -11,22 +11,22 @@
 #define OPERATOR 5
 
 
-int Plus(int y, int x)
+double Plus(double y, double x)
 {
 	return (y + x);
 }
 
-int Minus(int y, int x)
+double Minus(double y, double x)
 {
 	return (y - x);
 }
 
-int Multi(int y, int x)
+double Multi(double y, double x)
 {
 	return (y * x);
 } 
 
-int Divis(int y, int x)
+double Divis(double y, double x)
 {
 	if(x == 0) 
 		x = 1;
@@ -35,21 +35,43 @@ int Divis(int y, int x)
 	return (y / x);
 }
 
-int Squre(int x, int count)
+double Squre(int x, int count)
 {
-	int squre = 1;
+	double squre = 1.0;
+	double double_trans;
+	double_trans = (double)x;
 	
 	for(int i = 1; i < count; i++)
-		squre *= 10;
-	return (x * squre);
+		squre *= 10.0;
+	return (double_trans * squre);
 }
 
-int Trans(int str[NUMBER], int count)
+double Float_Squre(int x, int count)
 {
-	int total = 0; 
+	double squre = 1.0;
+	double double_trans;
+	double_trans = (double)x;
+	
+	for(int i = 1; i < count; i++)
+		squre /= 10.0;
+	return (double_trans / squre);
+}
+
+double Trans(int str[NUMBER], int count)
+{
+	double total = 0.0; 
 
 	for(int i = 0; i < count; i++)
 		total += Squre(str[i], count - i);
+	return total;
+}
+
+double Float_Trans(int str[NUMBER], int count)
+{
+	double total = 0.0;
+
+	for(int i = 0; i < count; i++)
+		total += Float_Squre(str[i], count - 1);
 	return total;
 }
 
@@ -63,14 +85,14 @@ void Operator(int operator[OPERATOR])
 	operator[i++] = 61;
 }
 
-void Sum(int utr[SURGES], int x[SURGES], int count)
+void Sum(int utr[SURGES], double x[SURGES], int count)
 {
 	int i, j;
 	int o_count = 0;
-	int total = 0;
+	double total = 0.0;
 
 /*	for(i = 1; i <= count; i++)
-		printf("%d\t\b", x[i-1]);
+		printf("%f\t", x[i-1]);
 	putchar('\n');
 */
 		CONTINUE:
@@ -114,13 +136,13 @@ void Sum(int utr[SURGES], int x[SURGES], int count)
 			}
 		}
 //確認用の表示
-/*	for(i = 1; i <= count - o_count; i++)
+	for(i = 1; i <= count - o_count; i++)
 	{
-		printf("%d ", x[i-1]);
+		printf("%f ", x[i-1]);
 		printf("%d ", utr[i]);
 	}
 	putchar('\n');
-*/
+
 
 	if((count - o_count) == 1)
 		goto END;
@@ -144,14 +166,14 @@ void Sum(int utr[SURGES], int x[SURGES], int count)
 		}
 		else if(utr[i] == 61)
 		{
-			printf("total=%d\n", total);
+			printf("total=%f\n", total);
 			break;
 		}
 	}
-	END: printf("total=%d\n", x[0]);
+	END: printf("total=%f\n", x[0]);
 }
 
-void keisan(int str[NUMBER], int ttr[SURGES], int utr[SURGES], int operator[OPERATOR])
+void keisan(int str[NUMBER], double ttr[SURGES], int utr[SURGES], int operator[OPERATOR])
 {
 	int ch;
 	int x;
@@ -172,9 +194,15 @@ void keisan(int str[NUMBER], int ttr[SURGES], int utr[SURGES], int operator[OPER
 	{
 		if(ch >= 48 && ch <= 57)
 		{
-			str[count] = (ch - 48);
-			count++;
+			
+			str[count++] = (ch - 48);
 			ttr[i] = Trans(str, count);
+	
+		}
+		if(ch == 46)
+		{
+			str[count++] = 46;
+			ttr[i] = Float_Trans(str, count);
 		}
 		switch(ch)
 		{
@@ -205,13 +233,15 @@ void keisan(int str[NUMBER], int ttr[SURGES], int utr[SURGES], int operator[OPER
 			break;
 		}
 	}
+	printf("i=%d\n", i);
 	
 }
 
 void Keisan_print(void)
 {
 	int str[NUMBER];
-	int ttr[SURGES], utr[SURGES];
+	double ttr[SURGES];
+	int utr[SURGES];
 	int operator[OPERATOR];
 	keisan(str, ttr, utr, operator);
 }

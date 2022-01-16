@@ -3,43 +3,93 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <math.h>
+#include <ctype.h>
+
 
 #define NUMBER 6
 #define SURGES 25
 #define OPERATOR 5
 
-int Plus(int y, int x)
+
+double Plus(double y, double x)
 {
-	return (y += x);
+	return (y + x);
 }
 
-int Minus(int y, int x)
+double Minus(double y, double x)
 {
-	return (y -= x);
+	return (y - x);
 }
 
-int Multi(int y, int x)
+double Multi(double y, double x)
 {
-	return (y *= x);
+	return (y * x);
 }
 
-int Squre(int x, int count)
+double Divis(double y, double x)
 {
-	int i;
-	int squre = 1;
-	for(i = 1; i < count; i++)
-		squre *= 10;
-	return (x * squre);
+	if(x == 0)
+		x = 1;
+	else if(y == 0)
+		return x;
+	return (y / x);
 }
 
-int Trans(int str[NUMBER], int count)
+double Squre(int x, int count)
 {
-	int i;
-	int total = 0;
-	
-	for(i = 0; i < count; i++)
+	double squre = 1.0;
+	double trans;
+	trans = (double)x;
+
+	for(int i = 1; i < count; i++)
+		squre *= 10.0;
+	return(trans * squre);
+}
+
+double Float_Squre(int x, int count)
+{
+	double squre = 1.0;
+	double trans;
+	trans = (double)x;
+
+	for(int i = 0; i <= count; i++)
+		squre /= 10.0;
+	return (trans * squre);
+}
+
+double Trans(int str[NUMBER], int count)
+{
+	double total = 0.0;
+
+	for(int i = 0; i < count; i++)
+		total += Squre(str[i], count - 1);
+	return total;
+}
+
+double Float_Trans(int str[NUMBER], int count)
+{
+	int point = 0;
+	double total = 0.0;
+	for(int i = 0; i < count; i++)
 	{
-		total += Squre(str[i], count - i);
+		if(str[i] == 46)
+		{
+			point = i;
+			break;
+		}
+	}
+	//整数部
+	for(int j = 0; j < point; j++)
+	{
+		total += Squre(str[j], point - j);
+	}
+	point++;
+	
+	//少数部
+	for(int j = 0; j < count - point; j++)
+	{
+		total += Float_Squre(str[point+1], j+1);
+		point++;
 	}
 	return total;
 }
@@ -47,69 +97,137 @@ int Trans(int str[NUMBER], int count)
 void Operator(int operator[OPERATOR])
 {
 	int i = 0;
-	operator[i++] = 42;  // *
-	operator[i++] = 43;  // +
-	operator[i++] = 45;  // -
-	operator[i++] = 47;  // /
-	operator[i++] = 61;  // =
+	operator[i++] = 42;
+	operator[i++] = 43;
+	operator[i++] = 45;
+	operator[i++] = 47;
+	operator[i++] = 61;
 }
 
-void Sum(int operator[SURGES], int x[SURGES], int count)
+void Sum(int utr[SURGES],  double x[SURGES], int count)
 {
-	int i, j;
 	int o_count = 0;
-	int total = 0;
-
-	//加減
-	for(i = 1; i <= count; i++)
+	double total = 0;
+	
+/*	for(i = 1; i <= count; i++)
+		printf("%f\t\b", x[i-1]);
+	putchar('\n');
+*/
+	CONTINUE:
+	for(int i = 1; i <= count; i++)
 	{
+		if(utr[i] == 42 && i < count)
+		{
+			o_count++;
+			x[i-1] = Multi(x[i-1], x[i]);
+			for(int j = i; j <= count; j++)
+			{
+				x[j] = x[j + 1];
+				utr[j] = utr[j+1];
+			}
+			goto CONTINUE;
+		}
+		else if(utr[i] == 47 && i < count)
+		{
+			o_count++;
+			x[i-1] = Divis(x[i-1], x[i]);
+			for(int j = i; j <= count; j++)
+			{
+				x[j] = x[j + 1];
+				utr[j] = utr[j + 1];
+			}
+			goto CONTINUE;
+		}
 		
-		if(operator[i] == 43)
+		if(utr[i] == 42 && i == count)
+		{
+			o_count++;
+			x[i-1] = Multi(x[i], x[i-1]);
+			goto CONTINUE;
+		}
+		else if(utr[i] == 47 && i == count)
+		{
+			o_count++;
+			x[i-1] = Divis(x[i-1], x[i]);
+			goto CONTINUE;
+		}
+	}
+//確認用の表示
+/*
+	for(int i = 1; i <= count; i++)
+	{
+		printf("&f ", x[i-1]);
+		printf("%d ", utr[i]);
+	putchar('\n');
+*/
+	if((count - o_count) == 1)
+		goto END;
+	
+	for(int i = 1; i <= count - o_count; i++)
+	{
+//		printf("total=%f\n", total);
+		if(utr[i] == 43)
 		{
 			if(i == 1)
-				total = Plus(x[i], x[i-1]);
+				total = Plus(x[i-1], x[i]);
 			else
 				total += x[i];
 		}
-		else if(operator[i] == 45)
+		else if(utr[i] == 45)
 		{
 			if(i == 1)
-				total = Minus(x[i], x[i-1]);
+				total = Minus(x[i-1], x[i]);
 			else
 				total -= x[i];
 		}
-		else if(operator[i] == 61)
+		else if(utr[i] == 61)
 		{
-			printf("total=%d\n", total);
+			printf("total=%f\n", total);
 			break;
 		}
 	}
+	return;
+
+	END: printf("total=%f\n", x[0]);
 }
 
-void Keisan(int str[NUMBER], int ttr[SURGES], int utr[SURGES], int operator[OPERATOR])
+
+void Keisan(int str[NUMBER], double ttr[SURGES], int utr[SURGES], int operator[OPERATOR])
 {
 	int ch;
 	int x;
 	int i = 0, count = 0;
 	FILE *fp;
-	char fname[] = "test.txt";
-	
-	Operator(operator);
+	char fname[] = "test1.txt";
 
+	Operator(operator);
+	
 	fp = fopen(fname, "r");
 	if(fp == NULL)
 	{
 		printf("%s file don't open.\n", fname);
 	}
 
-	fp = fopen(fname, "r");
+	fp= fopen(fname, "r");
 	while((ch = fgetc(fp)) != EOF)
 	{
-		if(ch >= 48 && ch <= 57)
+		// .
+		if(ch == 46)
 		{
-			str[count] = (ch - 48);
-			count++;
+			str[count++] = 46;
+		}
+		//0~9
+		else if(ch >= 48 && ch <= 57)
+		{
+			str[count++] = (ch - 48);
 			ttr[i] = Trans(str, count);
+		}
+		for(int j = 0; j < count; j++)
+		{
+			if(str[j] == 46)
+			{
+				ttr[i] = Float_Trans(str, count);
+			}
 		}
 		switch(ch)
 		{
@@ -117,7 +235,7 @@ void Keisan(int str[NUMBER], int ttr[SURGES], int utr[SURGES], int operator[OPER
 				utr[++i] = operator[0];
 				count = 0;
 				break;
-			case 43: 
+			case 43:
 				utr[++i] = operator[1];
 				count = 0;
 				break;
@@ -125,7 +243,12 @@ void Keisan(int str[NUMBER], int ttr[SURGES], int utr[SURGES], int operator[OPER
 				utr[++i] = operator[2];
 				count = 0;
 				break;
-			default: break;
+			case 47:
+				utr[++i] = operator[3];
+				count = 0;
+				break;
+			default:
+				break;
 		}
 
 		if(ch == operator[4])
@@ -135,17 +258,19 @@ void Keisan(int str[NUMBER], int ttr[SURGES], int utr[SURGES], int operator[OPER
 			break;
 		}
 	}
-/*	for(int j = 0; j < i; j++)
-		printf("ttr[%d]=%d\t", j, ttr[j]);
-*/
-	printf("\nch=%d\ti=%d\n", operator[2], i);
 
+/*
+	for(i = 0; i < count; i++)
+		printf("%3d", str[i]);
+	putchar('\n');
+*/	
 }
 
 void Keisan_print(void)
 {
-	int str[NUMBER];   //読み込み数値の変換用
-	int ttr[SURGES], utr[SURGES]; //オペランド、演算子保存用
+	int str[NUMBER];
+	double ttr[SURGES];
+	int utr[SURGES];
 	int operator[OPERATOR];
 	Keisan(str, ttr, utr, operator);
 }
