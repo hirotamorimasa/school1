@@ -1,5 +1,6 @@
 //*Copyright (c) 2022 Hiromasa Morita. All rights reserved.
 
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <math.h>
@@ -9,6 +10,7 @@
 #define NUMBER 6
 #define SURGES 25
 #define OPERATOR 5
+#define PI 3.1415926
 
 
 double Plus(double y, double x)
@@ -33,6 +35,24 @@ double Divis(double y, double x)
 	else if(y == 0)
 		return x;
 	return (y / x);
+}
+
+double Sin(double x)
+{
+	double radian = x * PI / 180.0; 
+	return sin(radian);
+}
+
+double Cos(double x)
+{
+	double radian = x * PI / 180.0;
+	return cos(radian);
+}
+
+double Tan(double x)
+{
+	double radian = x * PI / 180.0;
+	return tan(radian);
 }
 
 double Squre(int x, int count)
@@ -222,6 +242,7 @@ void Keisan(int str[NUMBER], double ttr[SURGES], int utr[SURGES], int operator[O
 			str[count++] = (ch - 48);
 			ttr[i] = Trans(str, count);
 		}
+		//小数点の確認
 		for(int j = 0; j < count; j++)
 		{
 			if(str[j] == 46)
@@ -229,6 +250,9 @@ void Keisan(int str[NUMBER], double ttr[SURGES], int utr[SURGES], int operator[O
 				ttr[i] = Float_Trans(str, count);
 			}
 		}
+		//sin, cos, tan
+		
+		// + - * /
 		switch(ch)
 		{
 			case 42:
