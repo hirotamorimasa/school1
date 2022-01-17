@@ -86,6 +86,7 @@ double Trans(int str[NUMBER], int count)
 	return total;
 }
 
+//sin, cos, tan 用
 double Angle_Trans(int str[NUMBER], int count)
 {
 	double total = 0.0;
@@ -135,7 +136,7 @@ void Operator(int operator[OPERATOR])
 	operator[i++] = 61;
 }
 
-void Sum(int utr[SURGES],  double x[SURGES], int count)
+void Keisan_print(int utr[SURGES],  double x[SURGES], int count)
 {
 	int o_count = 0;
 	double total = 0;
@@ -223,11 +224,10 @@ void Sum(int utr[SURGES],  double x[SURGES], int count)
 	END: printf("total=%f\n", x[0]);
 }
 
-
 void Keisan(int str[NUMBER], double ttr[SURGES], int utr[SURGES], int operator[OPERATOR], double degree)
 {
 	int ch;
-	int i = 0, count = 0;
+	int i = 0, count = 0, f_count = 0;
 	FILE *fp;
 	char fname[] = "test.txt";
 
@@ -246,7 +246,7 @@ void Keisan(int str[NUMBER], double ttr[SURGES], int utr[SURGES], int operator[O
 		if(ch == operator[4])
 		{
 			utr[++i] = operator[4];
-			Sum(utr, ttr, i);
+			Keisan_print(utr, ttr, i);
 			break;
 		}
 		// .
@@ -260,23 +260,47 @@ void Keisan(int str[NUMBER], double ttr[SURGES], int utr[SURGES], int operator[O
 			str[count++] = (ch - 48);
 			ttr[i] = Trans(str, count);
 		}
-		//小数点の確認
-		for(int j = 0; j < count; j++)
-		{
-			if(str[j] == 46)
-			{
-				ttr[i] = Float_Trans(str, count);
-			}
-		}
+		
 		//a ~ z
 		if(ch >= 97 && ch <= 122)
 			str[count++] = ch;
 		//()
 		if(ch >= 40 && ch <= 41)
 			str[count++] = ch;
+
 		//sin, cos, tan
 		for(int j = 0; j < count; j++)
 		{
+			//asin
+			if(str[0] == 97 && str[1] == 115 && j > 4)
+			{
+				degree = Angle_Trans(str, count);
+				if(str[j] == 41)
+				{
+					ttr[i] = asin(degree);
+					break;
+				}
+			}
+			//acos
+			if(str[0] == 97 && str[1] == 99 && j > 4)
+			{
+				degree = Angle_Trans(str, count);
+				if(str[j] == 41)
+				{
+					ttr[i] = acos(degree);
+					break;
+				}
+			}
+			//atan
+			if(str[0] == 97 && str[1] == 116 && j > 4)
+			{
+				degree = Angle_Trans(str, count);
+				if(str[j] == 41)
+				{
+					ttr[i] = atan(degree);
+					break;
+				}
+			}
 			//sin
 			if(str[0] == 115 && j > 3)
 			{
@@ -309,6 +333,13 @@ void Keisan(int str[NUMBER], double ttr[SURGES], int utr[SURGES], int operator[O
 			}
 		}
 
+		//小数点の確認
+		for(int j = 0; j < count; j++)
+		{
+			if(str[j] == 46)
+				ttr[i] = Float_Trans(str, count);
+		}
+
 		// + - * /
 		switch(ch)
 		{
@@ -332,14 +363,14 @@ void Keisan(int str[NUMBER], double ttr[SURGES], int utr[SURGES], int operator[O
 				break;
 		}
 }
-/*
+
 	for(int j = 0; j < count; j++)
 		printf("str[%d]=%3d\n", j, str[j]);
 	putchar('\n');
-*/	
+	
 }
 
-void Keisan_print(void)
+void Keisan_function(void)
 {
 	double degree = 0;
 	int str[NUMBER];
@@ -351,6 +382,6 @@ void Keisan_print(void)
 
 int main(void)
 {
-	Keisan_print();
+	Keisan_function();
 	return 0;
 }
