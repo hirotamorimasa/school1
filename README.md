@@ -12,5 +12,5 @@ middle.c → 中間値
 pascal.c → パスカルの三角形    
 bingo.c → ビンゴゲーム(complete)   
 blackjack.c → ブラックジャック(complete?)  
-dentaku.c → 電卓(四則演算, sin, cos, tanは使える)  
+dentaku.c → 電卓(dentaku.txtに入力する.  四則演算, sin, cos, tanは使える)  
 
