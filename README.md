@@ -1,6 +1,7 @@
 # school1
 
-*kadaiはtext.txtを使う*  
+*kadaiはtext.txtを使う*   
+*dentaku.cはdenntaku.txtに式を入力する* 
 monte.c → モンテカルロ法    
 kadai2.c　→　文字の頻出頻度    
 kadai4.c　→　第一近似の文字列生成(complete)    
@@ -12,5 +13,5 @@ middle.c → 中間値
 pascal.c → パスカルの三角形    
 bingo.c → ビンゴゲーム(complete)   
 blackjack.c → ブラックジャック(complete?)  
-dentaku.c → 電卓(dentaku.txtに入力する.  四則演算, sin, cos, tanは使える)  
+dentaku.c → 電卓( 四則演算, sin, cos, tanは使える)  
 
