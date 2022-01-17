@@ -10,7 +10,7 @@ coprime.c → 互いに素
 jyanken.c → じゃんけん  
 middle.c → 中間値  
 pascal.c → パスカルの三角形    
-bingo.c → ビンゴゲーム(complete)  
-blackjack.c → ブラックジャック(complete?)   
-
+bingo.c → ビンゴゲーム(complete)   
+blackjack.c → ブラックジャック(complete?)  
+dentaku.c → 電卓(四則演算, sin, cos, tanは使える)  
 
