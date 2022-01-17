@@ -1,7 +1,7 @@
 # school1
 
 *kadaiはtext.txtを使う*   
-*dentaku.cはdenntaku.txtに式を入力する* 
+*dentaku.cはdenntaku.txtに式を入力する*   
 monte.c → モンテカルロ法    
 kadai2.c　→　文字の頻出頻度    
 kadai4.c　→　第一近似の文字列生成(complete)    
