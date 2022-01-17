@@ -72,7 +72,7 @@ double Float_Squre(int x, int count)
 	double trans;
 	trans = (double)x;
 
-	for(int i = 0; i <= count; i++)
+	for(int i = 0; i < count; i++)
 		squre /= 10.0;
 	return (trans * squre);
 }
@@ -100,9 +100,9 @@ double Angle_Trans(int str[NUMBER], int count)
 
 double Float_Trans(int str[NUMBER], int count)
 {
-	int point = 0;
+	int i = 0, point = 0;
 	double total = 0.0;
-	for(int i = 0; i < count; i++)
+	for(i; i < count; i++)
 	{
 		if(str[i] == 46)
 		{
@@ -118,10 +118,9 @@ double Float_Trans(int str[NUMBER], int count)
 	point++;
 	
 	//少数部
-	for(int j = 0; j < count - point; j++)
+	for(int j = 0; j < count - i; j++)
 	{
-		total += Float_Squre(str[point+1], j+1);
-		point++;
+		total += Float_Squre(str[point++], j+1);
 	}
 	return total;
 }
@@ -363,11 +362,11 @@ void Keisan(int str[NUMBER], double ttr[SURGES], int utr[SURGES], int operator[O
 				break;
 		}
 }
-
+/*
 	for(int j = 0; j < count; j++)
 		printf("str[%d]=%3d\n", j, str[j]);
 	putchar('\n');
-	
+*/	
 }
 
 void Keisan_function(void)
