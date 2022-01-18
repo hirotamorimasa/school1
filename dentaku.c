@@ -4,7 +4,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <math.h>
-#include <ctype.h>
 
 
 #define NUMBER 6
@@ -72,7 +71,7 @@ double Float_Squre(int x, int count)
 	double trans;
 	trans = (double)x;
 
-	for(int i = 0; i <= count; i++)
+	for(int i = 0; i < count; i++)
 		squre /= 10.0;
 	return (trans * squre);
 }
@@ -86,6 +85,7 @@ double Trans(int str[NUMBER], int count)
 	return total;
 }
 
+//sin, cos, tan 用
 double Angle_Trans(int str[NUMBER], int count)
 {
 	double total = 0.0;
@@ -99,9 +99,9 @@ double Angle_Trans(int str[NUMBER], int count)
 
 double Float_Trans(int str[NUMBER], int count)
 {
-	int point = 0;
+	int i = 0, point = 0;
 	double total = 0.0;
-	for(int i = 0; i < count; i++)
+	for(i; i < count; i++)
 	{
 		if(str[i] == 46)
 		{
@@ -117,11 +117,32 @@ double Float_Trans(int str[NUMBER], int count)
 	point++;
 	
 	//少数部
-	for(int j = 0; j < count - point; j++)
+	for(int j = 0; j < count - i; j++)
 	{
-		total += Float_Squre(str[point+1], j+1);
-		point++;
+		total += Float_Squre(str[point++], j+1);
 	}
+	return total;
+}
+
+double F_Angle_Trans(int str[NUMBER], int count)
+{
+	int i = 5, point = 0;
+	double total = 0.0;
+	for(i; i < count; i++)
+	{
+		if(str[i] == 46) 
+		{
+			point = i; //point = 6
+			break;
+		}
+	}
+	
+	for(int j = 5; j < point; j++)
+		total += Squre(str[j], point - j);
+	point++; //point=7
+	
+	for(int j = point; j < count - 1; j++)
+		total += Float_Squre(str[j], j+1);
 	return total;
 }
 
@@ -135,13 +156,13 @@ void Operator(int operator[OPERATOR])
 	operator[i++] = 61;
 }
 
-void Sum(int utr[SURGES],  double x[SURGES], int count)
+void Keisan_print(int utr[SURGES],  double x[SURGES], int count)
 {
 	int o_count = 0;
-	double total = 0;
-	
-/*	for(i = 1; i <= count; i++)
-		printf("%f\t\b", x[i-1]);
+	double total = 0;	
+
+/*	for(int i = 1; i <= count; i++)
+		printf("%f\t\b", x[i]);
 	putchar('\n');
 */
 	CONTINUE:
@@ -223,13 +244,12 @@ void Sum(int utr[SURGES],  double x[SURGES], int count)
 	END: printf("total=%f\n", x[0]);
 }
 
-
 void Keisan(int str[NUMBER], double ttr[SURGES], int utr[SURGES], int operator[OPERATOR], double degree)
 {
 	int ch;
-	int i = 0, count = 0;
+	int i = 0, count = 0, f_count = 0;
 	FILE *fp;
-	char fname[] = "dentaku.txt";
+	char fname[] = "test.txt";
 
 	Operator(operator);
 	
@@ -242,15 +262,8 @@ void Keisan(int str[NUMBER], double ttr[SURGES], int utr[SURGES], int operator[O
 	fp= fopen(fname, "r");
 	while((ch = fgetc(fp)) != EOF)
 	{
-		// =
-		if(ch == operator[4])
-		{
-			utr[++i] = operator[4];
-			Sum(utr, ttr, i);
-			break;
-		}
 		// .
-		else if(ch == 46)
+		if(ch == 46)
 		{
 			str[count++] = 46;
 		}
@@ -260,23 +273,53 @@ void Keisan(int str[NUMBER], double ttr[SURGES], int utr[SURGES], int operator[O
 			str[count++] = (ch - 48);
 			ttr[i] = Trans(str, count);
 		}
-		//小数点の確認
-		for(int j = 0; j < count; j++)
-		{
-			if(str[j] == 46)
-			{
-				ttr[i] = Float_Trans(str, count);
-			}
-		}
+		
 		//a ~ z
 		if(ch >= 97 && ch <= 122)
 			str[count++] = ch;
 		//()
 		if(ch >= 40 && ch <= 41)
 			str[count++] = ch;
+		//小数点の確認
+		for(int j = 0; j < count; j++)
+		{
+			if(str[j] == 46)
+				ttr[i] = Float_Trans(str, count);
+		}
+
 		//sin, cos, tan
 		for(int j = 0; j < count; j++)
 		{
+			//asin
+			if(str[0] == 97 && str[1] == 115 && j > 4)
+			{
+				degree = F_Angle_Trans(str, count);
+				if(str[j] == 41)
+				{
+					ttr[i] = asin(degree);
+					break;
+				}
+			}
+			//acos
+			if(str[0] == 97 && str[1] == 99 && j > 4)
+			{
+				degree = Float_Trans(str, count);
+				if(str[j] == 41)
+				{
+					ttr[i] = acos(degree);
+					break;
+				}
+			}
+			//atan
+			if(str[0] == 97 && str[1] == 116 && j > 4)
+			{
+				degree = Float_Trans(str, count);
+				if(str[j] == 41)
+				{
+					ttr[i] = atan(degree);
+					break;
+				}
+			}
 			//sin
 			if(str[0] == 115 && j > 3)
 			{
@@ -308,7 +351,8 @@ void Keisan(int str[NUMBER], double ttr[SURGES], int utr[SURGES], int operator[O
 				}
 			}
 		}
-
+			
+		FLOAT:
 		// + - * /
 		switch(ch)
 		{
@@ -331,15 +375,23 @@ void Keisan(int str[NUMBER], double ttr[SURGES], int utr[SURGES], int operator[O
 			default:
 				break;
 		}
-}
+
+		// =
+		if(ch == operator[4])
+		{
+			utr[++i] = operator[4];
+			Keisan_print(utr, ttr, i);
+			break;
+		}
+	}
 /*
 	for(int j = 0; j < count; j++)
 		printf("str[%d]=%3d\n", j, str[j]);
 	putchar('\n');
-*/	
+*/
 }
 
-void Keisan_print(void)
+void Keisan_function(void)
 {
 	double degree = 0;
 	int str[NUMBER];
@@ -351,6 +403,6 @@ void Keisan_print(void)
 
 int main(void)
 {
-	Keisan_print();
+	Keisan_function();
 	return 0;
 }
