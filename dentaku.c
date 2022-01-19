@@ -249,7 +249,7 @@ void Keisan(int str[NUMBER], double ttr[SURGES], int utr[SURGES], int operator[O
 	int ch;
 	int i = 0, count = 0, f_count = 0;
 	FILE *fp;
-	char fname[] = "test.txt";
+	char fname[] = "dentaku.txt";
 
 	Operator(operator);
 	
